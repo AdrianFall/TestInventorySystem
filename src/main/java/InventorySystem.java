@@ -13,21 +13,25 @@ public class InventorySystem {
 
         for (int i = 0; i < items.size(); i++)
         {
-            // if not wine AND concert ticket
+            // as long as it is not Wine AND Concert Ticket
             if ((!"Wine".equals(items.get(i).getName())) && !"Concert Ticket".equals(items.get(i).getName()))
             {
-                // as long as quality is bigger than 0
+                // as long as quality is bigger than 0 + not a wine nor concert ticket
                 if (items.get(i).getQuality() > 0)
                 {
-                    // as long as it is not gold
-                    if (!"Gold".equals(items.get(i).getName()))
+                    // as long as it is a freshly baked bread + quality is bigger than 0 and (!wine && !concert ticket)
+                    if ("Freshly baked bread".equals(items.get(i).getName())) {
+                        items.get(i).setQuality(items.get(i).getQuality() - 2);
+                    }
+                    // as long as it is not gold + not freshly baked bread and quality > 0 and (!wine && !concert ticket)
+                    else if (!"Gold".equals(items.get(i).getName()))
                     {
                         // degrade quality by 1
                         items.get(i).setQuality(items.get(i).getQuality() - 1);
                     }
                 }
             }
-            else // otherwise item is gold OR concert ticket
+            else // otherwise item is wine OR concert ticket
             {
                 // as long as quality is lower than 50
                 if (items.get(i).getQuality() < 50)
@@ -60,8 +64,8 @@ public class InventorySystem {
                             }
                         }
                     } // end if "Concert Ticket"
-                } // end if (item == gold || item == concert ticket) && quality < 50
-            } // end else (item == gold || item == concert ticket)
+                } // end if (item == wine || item == concert ticket) && quality < 50
+            } // end else (item == wine || item == concert ticket)
 
             // as long as the item is gold
             if (!"Gold".equals(items.get(i).getName()))
@@ -89,6 +93,8 @@ public class InventorySystem {
                                 items.get(i).setQuality(items.get(i).getQuality() - 1);
                             }
                         } // end as long as the item has a quality > 0 + (!wine && !concert ticket) AND sell in days is < 0
+                        // quality is negative + !wine && !concert ticket) AND sell in days is < 0
+
                     } // end as long as the item is not concert ticket + not a wine AND its sell in days is negative
                     else // item is concert ticket + has negative number of sell in days
                     {

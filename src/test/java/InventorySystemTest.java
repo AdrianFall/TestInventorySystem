@@ -29,8 +29,41 @@ public class InventorySystemTest {
         items.add(new Item("Gold", 0, 80));
         items.add(new Item("Concert Ticket", 15, 20));
         items.add(new Item("Chocolate Eclair", 3, 6));
-
+        items.add(new Item("Freshly baked bread", 5, 30));
         inventorySystem = new InventorySystem(items);
+    }
+
+    /*
+    * The "Freshly baked bread" item degrade in Quality twice as fast as normal items
+    * */
+    @Test
+    public void testFreshlyBakedBread() {
+        inventorySystem.updateQuality();
+
+        for (Item i : inventorySystem.getItems()) {
+            if (i.getName().equals("Freshly baked bread")) {
+                Assert.assertEquals(28, i.getQuality());
+
+                // Skip 4 days
+                for (int d = 0; d < 4; d++) {
+                    inventorySystem.updateQuality();
+                }
+
+                Assert.assertEquals(20, i.getQuality());
+
+                // Skip 1 day
+                inventorySystem.updateQuality();
+
+                // Ensure that the Quality of the bread reduces faster (i.e. by 3)
+                // when the prior day quality was 0 or less
+                Assert.assertEquals(17, i.getQuality());
+
+                inventorySystem.updateQuality();;
+                Assert.assertEquals(14, i.getQuality());
+
+            }
+        }
+
     }
 
     @Test
@@ -126,10 +159,13 @@ public class InventorySystemTest {
 
 
 
-                        // Check the quality degrades twice as fast
+                        // As long as the sell in days < 0 AND quality is still positive
                         if (i.getSellIn() < 0 && i.getQuality() > 1) {
-                            //System.out.println(i.getName().toUpperCase());
-                            Assert.assertEquals(lastDayQuality - 2, i.getQuality());
+                            // Check the quality degrades twice as fast
+
+                            // Freshly baked bread should degrade at rate 3 as opposed to 2 for normal items
+                            int degradeRate = (i.getName().equals("Freshly baked bread")) ? 3 : 2;
+                            Assert.assertEquals(lastDayQuality - degradeRate, i.getQuality());
                         }
                     }
 
