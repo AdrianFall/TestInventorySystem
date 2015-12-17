@@ -3,28 +3,13 @@ import java.util.List;
 
 public class InventorySystem {
 
-	private static List<Item> items = null;
+	private List<Item> items = null;
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-
-        System.out.println("Starting the Inventory System");
-
-        items = new ArrayList<Item>();
-                         //String name, int sellIn(days), int quality
-        items.add(new Item("School Uniform", 10, 20));
-        items.add(new Item("Wine", 2, 0));
-        items.add(new Item("Poultry", 5, 7));
-        items.add(new Item("Gold", 0, 80));
-        items.add(new Item("Concert Ticket", 15, 20));
-        items.add(new Item("Chocolate Eclair", 3, 6));
-
-        updateQuality();
+    public InventorySystem(List<Item> items) {
+        this.items = items;
     }
 
-    public static void updateQuality() {
+    public void updateQuality() {
 
         for (int i = 0; i < items.size(); i++)
         {
@@ -122,4 +107,7 @@ public class InventorySystem {
         } // end iterating over items
     }
 
+    // Getters & Setters
+    public List<Item> getItems() { return items; }
+    public void setItems(List<Item> items) { this.items = items; }
 }
