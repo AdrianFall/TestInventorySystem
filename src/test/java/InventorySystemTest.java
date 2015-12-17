@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -89,6 +90,64 @@ public class InventorySystemTest {
             }
 
         }
+    } // end testSpecialBehaviours
+
+
+    /*
+    * There are some strict business rules, which need to be maintained:
+    *	Once the sell by date has passed, Quality degrades twice as fast (i.e. the int is decremented by 2 instead of 1)
+    *	The Quality of an item is never negative
+    *	The Quality of an item is never more than 50; except for "Gold" which can be 80.
+    * */
+    @Test
+    public void testBusinessRules() throws Exception {
+
+        inventorySystem.updateQuality();
+
+        // Map to keep record of changes from one day to another
+        HashMap<String, Integer> itemLastDayRecordMap = new HashMap<String, Integer>();
+        // Test for 20 days
+        for (int d = 0; d < 20; d++) {
+
+
+            for (Item i : inventorySystem.getItems()) { // for each item
+                // Check that the quality of an item is never negative
+                Assert.assertTrue(i.getQuality() >= 0);
+                // Check that the quality of an item is never more than 50 (except gold)
+                if (!i.getName().equals("Gold"))
+                    Assert.assertTrue(i.getQuality() <= 50);
+                if (!i.getName().equals("Wine") && !i.getName().equals("Gold")) { // Don't test Wine and Gold since they have special cases
+
+
+
+                    if (itemLastDayRecordMap.get(i.getName()+"Quality") != null) {
+                        //System.out.println(i.getName() + " q " + i.getQuality() + " si " + i.getSellIn());
+                        int lastDayQuality = itemLastDayRecordMap.get(i.getName()+"Quality");
+
+
+
+                        // Check the quality degrades twice as fast
+                        if (i.getSellIn() < 0 && i.getQuality() > 1) {
+                            //System.out.println(i.getName().toUpperCase());
+                            Assert.assertEquals(lastDayQuality - 2, i.getQuality());
+                        }
+                    }
+
+                    itemLastDayRecordMap.put(i.getName()+"Quality", i.getQuality());
+                }
+            }
+
+            inventorySystem.updateQuality();
+        }
+
+
+
+
+
+
+
+
+
     }
 
 }

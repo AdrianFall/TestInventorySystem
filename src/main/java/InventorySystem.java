@@ -92,7 +92,7 @@ public class InventorySystem {
                     } // end as long as the item is not concert ticket + not a wine AND its sell in days is negative
                     else // item is concert ticket + has negative number of sell in days
                     {
-                        // ....?
+                        // Quality drops to 0 after the concert
                         items.get(i).setQuality(items.get(i).getQuality() - items.get(i).getQuality());
                     } // end item is wine or concert ticket
                 } // end as long as the item is not a wine
