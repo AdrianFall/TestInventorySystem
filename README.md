@@ -51,7 +51,7 @@ When deployed the updateQuality() method gets called nightly to update all the i
 We're not imposing a maximum or minimum time limit on this challenge. Take as long as you require.
 Please feel free to query us should you have any questions.
 
-1. Clone this repository
-2. At regular intervals commit and push your changes so we can see logical progress & steps you took through the problem
+1. Follow through the steps in this exercise
+2. At regular intervals commit your changes so we can see logical progress & steps you took through the problem
 3. Add a text file (ideally in Markdown format) to the root of the repository detailing the changes you made and explanations for the steps you took.  Feel free to include any assumptions you made during the exercise too.
 4. Compress and email the entire project directory to us. (Including any nested .git directories)
